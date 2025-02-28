@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Mentors disponibles</h2>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Nom</th>
+                    <th>Spécialité</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mentor in mentors %}
+                    <tr>
+                        <td>
+                            {% if mentor.photo %}
+                                <img src="{{ mentor.photo.url }}" alt="Photo de {{ mentor.username }}" width="50" height="50">
+                            {% else %}
+                                <img src="{% static 'images/default-photo.png' %}" alt="Photo par défaut" width="50" height="50">
+                            {% endif %}
+                        </td>
+                        <td>{{ mentor.username }}</td>
+                        <td>{{ mentor.specialite }}</td>
+                        <td>
+                            <a href="{% url 'mentorship_detail' mentor.id %}" class="btn btn-primary">Voir détails</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">Aucun mentor disponible.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

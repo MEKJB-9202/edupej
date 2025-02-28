@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Inscription{% endblock %}
+{% block content %}
+    <div class="col-md-6 offset-md-3">
+        <h2 class="text-center">Inscription</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            
+            <!-- Ajout explicite du champ username -->
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Nom d'utilisateur :</label>
+                <input type="text" id="id_username" name="username" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="role" class="form-label">Choisissez votre rôle :</label>
+                <select id="role" name="role" class="form-control">
+                    <option value="apprenant">Apprenant</option>
+                    <option value="formateur">Formateur</option>
+                    <option value="mentor">Mentor</option>
+                    <option value="parent">Parent</option>
+                </select>
+            </div>
+
+            <div id="mentor_section" class="mb-3" style="display: none;">
+                <label for="apprenant_mentor" class="form-label">Mentor de quel apprenant ?</label>
+                <input type="text" id="apprenant_mentor" name="apprenant_mentor" class="form-control">
+            </div>
+
+            <div id="parent_section" class="mb-3" style="display: none;">
+                <label for="apprenant_parent" class="form-label">Parent de quel apprenant ?</label>
+                <input type="text" id="apprenant_parent" name="apprenant_parent" class="form-control">
+            </div>
+
+            <div id="mentor_choice" class="mb-3" style="display: none;">
+                <label for="mentor" class="form-label">Choisissez un mentor :</label>
+                <select id="mentor" name="mentor" class="form-control">
+                    <option value="">Aucun</option>
+                    {% for mentor in mentors %}
+                        <option value="{{ mentor.id }}">{{ mentor.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div id="social_section" class="mb-3" style="display: none;">
+                <label for="facebook" class="form-label">Profil Facebook :</label>
+                <input type="url" id="facebook" name="facebook" class="form-control">
+                <label for="twitter" class="form-label">Profil Twitter :</label>
+                <input type="url" id="twitter" name="twitter" class="form-control">
+                <label for="linkedin" class="form-label">Profil LinkedIn :</label>
+                <input type="url" id="linkedin" name="linkedin" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('role').addEventListener('change', function() {
+            let mentorSection = document.getElementById('mentor_section');
+            let parentSection = document.getElementById('parent_section');
+            let socialSection = document.getElementById('social_section');
+            let mentorChoice = document.getElementById('mentor_choice');
+
+            mentorSection.style.display = this.value === 'mentor' ? 'block' : 'none';
+            parentSection.style.display = this.value === 'parent' ? 'block' : 'none';
+            socialSection.style.display = (this.value === 'mentor' || this.value === 'formateur') ? 'block' : 'none';
+            mentorChoice.style.display = this.value === 'apprenant' ? 'block' : 'none';
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Détails du cours{% endblock %}
+{% block content %}
+    <h2>{{ cours.titre }}</h2>
+    <p>{{ cours.description }}</p>
+    <a href="{% url 'commencer_cours' cours.id %}" class="btn btn-primary">Commencer la formation</a>
+{% endblock %}

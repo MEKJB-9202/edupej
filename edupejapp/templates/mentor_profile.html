@@ -1,0 +1,13 @@
+<div class="mentor-profile">
+    <img src="{{ mentor.photo.url }}" alt="Photo de {{ mentor.username }}" class="img-fluid rounded-circle" width="150">
+    <h4>{{ mentor.username }}</h4>
+    <p>Capacités :</p>
+    <ul>
+        {% for capacite in mentor.capacites.all %}
+            <li>{{ capacite.nom }}</li>
+        {% empty %}
+            <li>Aucune capacité ajoutée</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'edit_mentor_profile' %}" class="btn btn-secondary">Modifier mon profil</a>
+</div>
